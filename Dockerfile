@@ -1,11 +1,15 @@
-FROM python:3.11.10-alpine3.19
+FROM python:3.9.12-alpine3.15
+
+EXPOSE 5000
 
 WORKDIR /app
 
-RUN pip install flask flask-restful flake8
+COPY requirements.txt .
 
-RUN pip freeze
+RUN pip install -r requirements.txt
 
-COPY app.py .
+COPY wsgi.py .
+COPY config.py .
+COPY application application
 
-CMD [ "python3", "app.py" ]
+CMD [ "python", "wsgi.py" ]
